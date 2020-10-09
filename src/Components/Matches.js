@@ -31,7 +31,7 @@ export default function Matches(props) {
 
   useEffect(()=>{
     const getMatches=async()=>{
-      const res=await fetch('http://kuamr.pythonanywhere.com/matches/')
+      const res=await fetch('https://kuamr.pythonanywhere.com/matches/')
       const json=await res.json();
       setMatches(json);
       console.log(matches)
