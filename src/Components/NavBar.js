@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -63,7 +63,7 @@ export default function NavBar() {
     <div className={classes.root}>
       <AppBar position="static" style={{background:'linear-gradient(to right, #485563, #29323c)'}}>
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Matches" {...a11yProps(0)} />
+          <Tab label="Matches" {...a11yProps(0)}/>
           <Tab label="Results" {...a11yProps(1)} />
           <Tab label="Table" {...a11yProps(2)} />
           <Tab label="Stats" {...a11yProps(3)} />

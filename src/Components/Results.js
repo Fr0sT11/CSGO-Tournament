@@ -5,6 +5,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,11 +49,18 @@ export default function Results() {
           id="panel1bh-header"
         >
           <Typography className={classes.heading}>
+          <Grid
+            container
+            direction='row'
+            justify='center' 
+            align='center'
+          >
               pandeysuyog2013
               <Typography className={classes.winnerScore}>16</Typography>
               :
               <Typography className={classes.loserScore}>4</Typography>
               infinity
+            </Grid>
           </Typography>
           {/* <Typography className={classes.secondaryHeading}>I am an accordion</Typography> */}
         </AccordionSummary>
@@ -69,11 +77,18 @@ export default function Results() {
           id="panel2bh-header"
         >
           <Typography className={classes.heading}>
+          <Grid
+            container
+            direction='row'
+            justify='center' 
+            align='center'
+          >
               aavashsilwal
               <Typography className={classes.winnerScore}>16</Typography>
               :
               <Typography className={classes.loserScore}>4</Typography>
               asdfghjkl.kt97
+            </Grid>
           </Typography>
           {/* <Typography className={classes.secondaryHeading}>
             You are currently not an owner
@@ -92,11 +107,18 @@ export default function Results() {
           id="panel3bh-header"
         >
           <Typography className={classes.heading}>
+          <Grid
+            container
+            direction='row'
+            justify='center' 
+            align='center'
+          >
               asdfghjkl.kt97
               <Typography className={classes.winnerScore}>16</Typography>
               :
               <Typography className={classes.loserScore}>13</Typography>
               r_sankalpa
+          </Grid>
           </Typography>
           {/* <Typography className={classes.secondaryHeading}>
             Filtering has been entirely disabled for whole web server
@@ -115,11 +137,18 @@ export default function Results() {
           id="panel4bh-header"
         >
           <Typography className={classes.heading}>
+          <Grid
+            container
+            direction='row'
+            justify='center' 
+            align='center'
+          >
               aavashsilwal
               <Typography className={classes.winnerScore}>16</Typography>
               :
               <Typography className={classes.loserScore}>8</Typography>
               pandeysuyog2013
+          </Grid>
           </Typography>
         </AccordionSummary>
         <AccordionDetails>

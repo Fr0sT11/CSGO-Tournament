@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -22,58 +22,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Matches() {
+
+
+export default function Matches(props) {
   const classes = useStyles();
+
+  const[matches, setMatches]=useState([]);
+
+  useEffect(()=>{
+    const getMatches=async()=>{
+      const res=await fetch('http://kuamr.pythonanywhere.com/matches/')
+      const json=await res.json();
+      setMatches(json);
+      console.log(matches)
+    }
+    getMatches();
+  });
 
   return (
     <List component="nav" className={classes.root} aria-label="mailbox folders">
-      <ListItem button>
-      <Grid
-        container
-        direction='row'
-        justify='center'  
-      >
-        <ListItemText className={classes.player1} primary="aavashsilwal" />
-        <span style={{fontSize:'150%'}}>V</span>
-        <ListItemText className={classes.player2} primary="r_sankalpa" />
-      </Grid>
-      </ListItem>
-      <Divider />
-      <ListItem button>
-      <Grid
-        container
-        direction='row'
-        justify='center' 
-        align='center'
-      >
-        <ListItemText className={classes.player1} primary="pandeysuyog2013" />
-        <span style={{fontSize:'150%'}}>V</span>
-        <ListItemText className={classes.player2} primary="asdfghjkl.kt97" />
-      </Grid>
-      </ListItem>
-      <ListItem button>
-      <Grid
-        container
-        direction='row'
-        justify='center'  
-      >
-        <ListItemText className={classes.player1} primary="infinity" />
-        <span style={{fontSize:'150%'}}>V</span>
-        <ListItemText className={classes.player2} primary="aavashsilwal" />
-      </Grid>
-      </ListItem>
-      <Divider light />
-      <ListItem button>
-      <Grid
-        container
-        direction='row'
-        justify='center'  
-      >
-        <ListItemText className={classes.player1} primary="r_sankalpa" />
-        <span style={{fontSize:'150%'}}>V</span>
-        <ListItemText className={classes.player2} primary="infinity" />
-      </Grid>
-      </ListItem>
+      {matches
+      .filter(match=>{
+        return !match.Winner;
+      })
+      .map(match=>{
+        return(
+          <React.Fragment>
+          <ListItem button>
+          <Grid
+            container
+            direction='row'
+            justify='center'  
+          >
+            <ListItemText className={classes.player1} primary={match.player1} />
+            <span style={{fontSize:'150%'}}>V</span>
+            <ListItemText className={classes.player2} primary={match.player2} />
+          </Grid>
+          </ListItem>
+          <Divider />
+          </React.Fragment>
+        )
+      })}
     </List>
   );
 }
