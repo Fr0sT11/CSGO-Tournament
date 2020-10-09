@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -26,17 +26,18 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(players, won, lost, drawn, points, rd) {
-  return { players, won, lost, drawn, points, rd };
-}
 
-const rows = [
-  createData('aavashsilwal', 2, 0, 0, 6, '+20'),
-  createData('pandeysuyog', 2, 1, 0, 6, '+17'),
-  createData('asdfghjkl.kt97', 2, 1, 0, 3, '-6'),
-  createData('r_sankalpa', 0, 2, 0, 0, '-12'),
-  createData('infinity', 0, 3, 0, 0, '-15'),
-];
+// function createData(players, played, won, lost, drawn, points, rd) {
+//   return { players,played, won, lost, drawn, points, rd };
+// }
+
+// const rows = [
+//   createData('aavashsilwal',2, 2, 0, 0, 6, '+20'),
+//   createData('pandeysuyog', 3, 2, 1, 0, 6, '+17'),
+//   createData('asdfghjkl.kt97', 3, 2, 1, 0, 3, '-6'),
+//   createData('r_sankalpa', 2, 0, 2, 0, 0, '-12'),
+//   createData('infinity', 3, 0, 3, 0, 0, '-15'),
+// ];
 
 const useStyles = makeStyles({
   table: {
@@ -46,6 +47,18 @@ const useStyles = makeStyles({
 
 export default function PointsTable() {
   const classes = useStyles();
+  
+  const [rows,setRowData]=useState([]);
+  
+  useEffect(()=>{
+    const getTableData=async()=>{
+      const res=await fetch('https://kuamr.pythonanywhere.com/create/point');
+      const json=await(res.json())
+      setRowData(json)
+      console.log(json)
+    }
+    getTableData();
+  })
 
   return (
     <TableContainer component={Paper}>
@@ -53,6 +66,7 @@ export default function PointsTable() {
         <TableHead>
           <TableRow>
             <StyledTableCell>Players</StyledTableCell>
+            <StyledTableCell align="right">Played</StyledTableCell>
             <StyledTableCell align="right">Won</StyledTableCell>
             <StyledTableCell align="right">Lost</StyledTableCell>
             <StyledTableCell align="right">Drawn</StyledTableCell>
@@ -62,13 +76,14 @@ export default function PointsTable() {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <StyledTableRow key={row.players}>
+            <StyledTableRow key={row.profile}>
               <StyledTableCell component="th" scope="row">
-                {row.players}
+                {row.profile}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.won}</StyledTableCell>
-              <StyledTableCell align="right">{row.lost}</StyledTableCell>
-              <StyledTableCell align="right">{row.drawn}</StyledTableCell>
+              <StyledTableCell align="right">{row.match_played}</StyledTableCell>
+              <StyledTableCell align="right">{row.match_won}</StyledTableCell>
+              <StyledTableCell align="right">{row.match_loss}</StyledTableCell>
+              <StyledTableCell align="right">{row.math_drawn}</StyledTableCell>
               <StyledTableCell align="right">{row.points}</StyledTableCell>
               <StyledTableCell align="right">{row.rd}</StyledTableCell>
             </StyledTableRow>

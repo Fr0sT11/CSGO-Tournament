@@ -34,7 +34,6 @@ export default function Matches(props) {
       const res=await fetch('https://kuamr.pythonanywhere.com/matches/')
       const json=await res.json();
       setMatches(json);
-      console.log(matches)
     }
     getMatches();
   });
