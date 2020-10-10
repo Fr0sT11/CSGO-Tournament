@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -22,55 +22,84 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
     color:'white',
   },
+  player1:{
+    paddingRight:'1rem'
+  },
+  player2:{
+    paddingLeft:'1rem'
+  },
   winnerScore:{
-    paddingLeft:'1rem',
     color:'#90EE90',
   },
   loserScore:{
-    paddingRight:'1rem',
     color:'red',
   },
 }));
 
 export default function Results() {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
+  const[results, setResults]=useState([]);
+
+  useEffect(()=>{
+    const getResults=async()=>{
+      const res=await fetch('https://kuamr.pythonanywhere.com/matches/')
+      const json=await res.json();
+      setResults(json);
+    }
+    getResults();
+  });
+
   return (
     <div className={classes.root}>
-      <Accordion className={classes.accordion} expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-        >
-          <Typography className={classes.heading}>
-          <Grid
-            container
-            direction='row'
-            justify='center' 
-            align='center'
+      {results
+      .filter(match=>{
+        return match.Winner;
+      })
+      .map(result=>{
+        return(
+        <Accordion className={classes.accordion} expanded={expanded === `panel${result.id}`} onChange={handleChange(`panel${result.id}`)}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls={`panel${result.id}bh-content`}
+            id={`panel${result.id}`}
           >
-              pandeysuyog2013
-              <Typography className={classes.winnerScore}>16</Typography>
-              :
-              <Typography className={classes.loserScore}>4</Typography>
-              infinity
-            </Grid>
-          </Typography>
-          {/* <Typography className={classes.secondaryHeading}>I am an accordion</Typography> */}
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Work On progress! Match details will be provided soon.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion className={classes.accordion} expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+            <Typography className={classes.heading}>
+            <Grid
+              container
+              direction='row'
+              justify='center' 
+              align='center'
+            >
+                <Typography className={classes.player1}>{result.player1}</Typography>
+                <Typography 
+                className={
+                  (result.player1_points>=result.player2_points)?classes.winnerScore:classes.loserScore
+                }>{result.player1_points}</Typography>
+                :
+                <Typography
+                 className={
+                  (result.player2_points>=result.player1_points)?classes.winnerScore:classes.loserScore
+                 }>{result.player2_points}</Typography>
+                <Typography className={classes.player2}>{result.player2}</Typography>
+              </Grid>
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>
+              Work On progress! Match details will be provided soon.
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+
+        )        
+      })}
+      {/* <Accordion className={classes.accordion} expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2bh-content"
@@ -90,9 +119,6 @@ export default function Results() {
               asdfghjkl.kt97
             </Grid>
           </Typography>
-          {/* <Typography className={classes.secondaryHeading}>
-            You are currently not an owner
-          </Typography> */}
         </AccordionSummary>
         <AccordionDetails>
         <Typography>
@@ -120,9 +146,6 @@ export default function Results() {
               r_sankalpa
           </Grid>
           </Typography>
-          {/* <Typography className={classes.secondaryHeading}>
-            Filtering has been entirely disabled for whole web server
-          </Typography> */}
         </AccordionSummary>
         <AccordionDetails>
         <Typography>
@@ -196,7 +219,7 @@ export default function Results() {
             Work On progress! Match details will be provided soon.
           </Typography>
         </AccordionDetails>
-      </Accordion>
+      </Accordion> */}
     </div>
   );
 }

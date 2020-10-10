@@ -26,19 +26,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-
-// function createData(players, played, won, lost, drawn, points, rd) {
-//   return { players,played, won, lost, drawn, points, rd };
-// }
-
-// const rows = [
-//   createData('aavashsilwal',2, 2, 0, 0, 6, '+20'),
-//   createData('pandeysuyog', 3, 2, 1, 0, 6, '+17'),
-//   createData('asdfghjkl.kt97', 3, 2, 1, 0, 3, '-6'),
-//   createData('r_sankalpa', 2, 0, 2, 0, 0, '-12'),
-//   createData('infinity', 3, 0, 3, 0, 0, '-15'),
-// ];
-
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
@@ -55,7 +42,6 @@ export default function PointsTable() {
       const res=await fetch('https://kuamr.pythonanywhere.com/create/point');
       const json=await(res.json())
       setRowData(json)
-      console.log(json)
     }
     getTableData();
   })
